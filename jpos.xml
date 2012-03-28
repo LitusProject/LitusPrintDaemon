@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JposEntries PUBLIC "-//JavaPOS//DTD//EN" "jpos/res/jcl.dtd">
+<JposEntries>
+
+  <JposEntry logicalName="Star TSP100 Cutter (TSP143)_1">
+    <creation factoryClass="com.starmicronics.starjavapos.ServiceInstanceFactory" serviceClass="com.starmicronics.starjavapos.POSPrinterService" />
+    <vendor name="Star Micronics" url="www.star-m.jp/eng/index.htm" />
+    <jpos category="POSPrinter" version="1.13" />
+    <product description="Star receipt printer" name="TSP100" url="www.star-m.jp/eng/index.htm" />
+    <prop name="model" type="String" value="TSP100" />
+    <prop name="portName" type="String" value="usbprn:TSP143" />
+    <prop name="portSettings" type="String" value="" />
+    <prop name="ioTimeoutMillis" type="Integer" value="5000" />
+    <prop name="doCheckedBlockPrinting" type="Boolean" value="True" />
+    <prop name="commandEmulatorConfig" type="String" value="" />
+  </JposEntry>
+
+</JposEntries>
+
