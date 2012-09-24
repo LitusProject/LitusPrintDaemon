@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: PrintClient
+Class-Path: lib/commandemulator.jar lib/jcl.jar lib/jpos113-controls.jar lib/stario.jar lib/starjavapos.jar lib/xercesimpl.jar lib/xml-apis.jar

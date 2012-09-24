@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<servers>
-	<server>
-		<host>localhost</host>
-		<clientport>2001</clientport>
-		<serverport>3001</serverport>
-	</server>
-</servers>
