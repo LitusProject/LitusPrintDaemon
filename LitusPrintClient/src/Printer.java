@@ -29,6 +29,7 @@ public class Printer {
 		ticket1.setBarcode("1234567890");
 		ticket1.setQueuNumber("3");
 		ticket1.setTotalAmount("63,00");
+		ticket1.setType(2);
 		
 		String[] items = {"Fundamentals of Computer Graphics","De Bijbel"};
 		String[] itemBarcodes = {"12345","67890"};
@@ -40,7 +41,7 @@ public class Printer {
 		
 		System.out.println(ticket1.toJsonString());
 		
-//		getInstance().printBillTicket(ticket1);
+		getInstance().printWaitingTicket(ticket1);
 	}
 	
 }

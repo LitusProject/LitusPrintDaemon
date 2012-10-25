@@ -143,7 +143,7 @@ public class WaitingTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|4C" + ESC + "|bC" + "VTK Cursusdienst" + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getId() + LF);
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: "+ticket.getQueuNumber() + LF);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: "+ticket.getQueueNumber() + LF);
 				
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				for (int i = 0;i < ticket.getItems().size();i++) {
@@ -160,6 +160,12 @@ public class WaitingTicketPrinter implements OutputCompleteListener, StatusUpdat
 					}
 					
 					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
+					try {
+						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "               "+ticket.getItemBarcodes().get(i) + LF);	
+					} catch (Exception e) {
+						// Do nothing, no barcodes are in the tickets.
+					}
+					
 				}
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|rA" + ESC + "|bC" + "Totaal:  "+EURO+" "+ticket.getTotalAmount() + LF);

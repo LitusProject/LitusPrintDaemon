@@ -148,7 +148,7 @@ public class Ticket {
 		Ticket job = new Ticket();
 		job.setId(jsonObject.getString("id"));
 		job.setBarcode(jsonObject.getString("barcode"));
-		job.setQueuNumber(jsonObject.getString("quenumber"));
+		job.setQueuNumber(jsonObject.getString("queuenumber"));
 		job.setTotalAmount(jsonObject.getString("totalAmount"));
 		job.setType(jsonObject.getInt("type"));
 		
@@ -170,9 +170,9 @@ public class Ticket {
 		Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("id", getId());
 	    map.put("barcode", getBarcode());
-	    map.put("quenumber", getQueuNumber());
+	    map.put("queuenumber", getQueueNumber());
 	    map.put("totalAmount", getTotalAmount());
-	    map.put("type", type);
+	    map.put("type", getType()+"");
 	    map.put("items", getItems());
 	    map.put("prices", getPrices());	    
 	    map.put("itemBarcodes", getItemBarcodes());
@@ -184,7 +184,7 @@ public class Ticket {
 		Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("id", getId());
 	    map.put("barcode", getBarcode());
-	    map.put("quenumber", getQueuNumber());
+	    map.put("queuenumber", getQueueNumber());
 	    map.put("totalAmount", getTotalAmount());
 	    map.put("items", getItems());
 	    map.put("prices", getPrices());	    
@@ -219,7 +219,7 @@ public class Ticket {
 		this.barcode = barcode;
 	}
 
-	public String getQueuNumber() {
+	public String getQueueNumber() {
 		return queuNumber;
 	}
 
@@ -284,7 +284,7 @@ public class Ticket {
 			return false;
 		} else if (!ticket.getBarcode().equals(barcode)) {
 			return false;
-		} else if (!ticket.getQueuNumber().equals(queuNumber)) {
+		} else if (!ticket.getQueueNumber().equals(queuNumber)) {
 			return false;
 		} else if (!ticket.getTotalAmount().equals(totalAmount)) {
 			return false;
