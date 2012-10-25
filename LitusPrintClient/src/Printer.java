@@ -1,16 +1,5 @@
 import java.util.Arrays;
 
-import jpos.JposConst;
-import jpos.JposException;
-import jpos.POSPrinter;
-import jpos.POSPrinterConst;
-import jpos.events.ErrorEvent;
-import jpos.events.ErrorListener;
-import jpos.events.OutputCompleteEvent;
-import jpos.events.OutputCompleteListener;
-import jpos.events.StatusUpdateEvent;
-import jpos.events.StatusUpdateListener;
-import jpos.util.JposPropertiesConst;
 
 public class Printer {
 
@@ -42,12 +31,16 @@ public class Printer {
 		ticket1.setTotalAmount("63,00");
 		
 		String[] items = {"Fundamentals of Computer Graphics","De Bijbel"};
+		String[] itemBarcodes = {"12345","67890"};
 		String[] prices = {"45,00","8,00"};
 		
 		ticket1.setItems(Arrays.asList(items));
+		ticket1.setItemBarcodes(Arrays.asList(itemBarcodes));
 		ticket1.setPrices(Arrays.asList(prices));
 		
-		getInstance().printBillTicket(ticket1);
+		System.out.println(ticket1.toJsonString());
+		
+//		getInstance().printBillTicket(ticket1);
 	}
 	
 }

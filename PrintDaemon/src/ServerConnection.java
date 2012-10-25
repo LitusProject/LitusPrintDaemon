@@ -4,6 +4,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import net.sf.json.JSONObject;
+
 
 public class ServerConnection implements Runnable {
 
@@ -42,19 +44,18 @@ public class ServerConnection implements Runnable {
 				String s = in.readLine();
 
 				if (s != null) {
-					String[] parts = s.split(" ");
-					if (parts.length < 2) {
-						System.out.println("Server "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
-						socket.close();
-					} else if (!parts[0].equals("PRINT")) {
-						System.out.println("Server "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
-						socket.close();
-					} else {
-						String id = parts[1];
-						System.out.println("Looking for id: " + id);
+					
+					JSONObject jsonObject = JSONObject.fromObject(s);
+					String command = jsonObject.getString("command");
+					
+					if (command != null && command.equals("PRINT")) {
+						
+						String id = jsonObject.getString("id");
+						JSONObject object = jsonObject.getJSONObject("ticket");
+						
 						System.out.println("Looking for id: " + id);
 						ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
-						connection.send(s);
+						connection.send(object.toString());
 					}
 				} else {
 					return;
