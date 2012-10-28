@@ -23,6 +23,10 @@ public class Printer {
 		BillTicketPrinter.getInstance().printTicket(ticket);
 	}
 	
+	public void printCollectTicket(Ticket ticket) {
+		CollectTicketPrinter.getInstance().printTicket(ticket);
+	}
+	
 	public static void main (String[] args) {
 		Ticket ticket1 = new Ticket();
 		ticket1.setId("s0202187");

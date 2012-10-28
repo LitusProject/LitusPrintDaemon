@@ -11,14 +11,14 @@ import jpos.events.StatusUpdateEvent;
 import jpos.events.StatusUpdateListener;
 import jpos.util.JposPropertiesConst;
 
-public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateListener, ErrorListener {
+public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdateListener, ErrorListener {
 
 	
-	private static BillTicketPrinter instance;
+	private static CollectTicketPrinter instance;
 	
-	public static BillTicketPrinter getInstance() {
+	public static CollectTicketPrinter getInstance() {
 		if (instance == null) {
-			instance = new BillTicketPrinter();
+			instance = new CollectTicketPrinter();
 		}
 		return instance;
 	}
@@ -157,6 +157,16 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 					}
 					
 					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
+					
+					if (printer.getCapRecBarCode() == true) {
+						// print a Code 3 of 9 barcode with the data "123456789012" encoded
+						// the 10 * 100, 60 * 100 parameters below specify the barcode's
+						// height and width in the metric map mode (1cm tall, 6cm wide)
+						printer.printBarCode(POSPrinterConst.PTR_S_RECEIPT, ticket.getItemBarcodes().get(i), POSPrinterConst.PTR_BCS_Code39,
+								700, 4000, POSPrinterConst.PTR_BC_CENTER, POSPrinterConst.PTR_BC_TEXT_BELOW);
+					}
+					
+					
 				}
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|rA" + ESC + "|bC" + "Totaal:  "+EURO+" "+ticket.getTotalAmount() + LF);
@@ -206,6 +216,6 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 			}
 		}
 
-		System.out.println("Bill ticket printed");
+		System.out.println("Collect ticket printed");
 	}
 }

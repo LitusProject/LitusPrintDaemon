@@ -65,7 +65,6 @@ public class WaitingTicketPrinter implements OutputCompleteListener, StatusUpdat
 		String ESC = ((char) 0x1b) + "";
 		String LF = ((char) 0x0a) + "";
 		String EURO =  "";
-		String SPACES = "                                                                      ";
 
 		// instantiate a new jpos.POSPrinter object
 		POSPrinter printer = new POSPrinter();

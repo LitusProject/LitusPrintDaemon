@@ -45,6 +45,8 @@ public class ServerConnection {
 						if (ticket.getType() == 1) {
 							Printer.getInstance().printWaitingTicket(ticket);
 						} else if (ticket.getType() == 2) {
+							Printer.getInstance().printCollectTicket(ticket);
+						} else if (ticket.getType() == 3) {
 							Printer.getInstance().printBillTicket(ticket);
 						}
 
