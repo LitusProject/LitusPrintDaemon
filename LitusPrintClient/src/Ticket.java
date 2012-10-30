@@ -25,6 +25,11 @@ public class Ticket {
 	private String id;
 	
 	/**
+	 * KOPER NAAM ()
+	 */
+	private String name;
+	
+	/**
 	 * BARCODE ID
 	 */
 	private String barcode;
@@ -88,6 +93,7 @@ public class Ticket {
 		// We beginnen dus met de enkelle velden al aan elkaar te koppellen m.b.v.
 		// het dubbelle DELIMETER char.
 		String s = 	id+DELIMETER+DELIMETER+
+					name+DELIMETER+DELIMETER+
 					barcode+DELIMETER+DELIMETER+
 					queuNumber+DELIMETER+DELIMETER+
 					totalAmount;
@@ -147,6 +153,7 @@ public class Ticket {
 		
 		Ticket job = new Ticket();
 		job.setId(jsonObject.getString("id"));
+		job.setName(jsonObject.getString("name"));
 		job.setBarcode(jsonObject.getString("barcode"));
 		job.setQueuNumber(jsonObject.getString("queuenumber"));
 		job.setTotalAmount(jsonObject.getString("totalAmount"));
@@ -169,6 +176,7 @@ public class Ticket {
 	public JSONObject toJsonObject() {
 		Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("id", getId());
+	    map.put("name", getName());
 	    map.put("barcode", getBarcode());
 	    map.put("queuenumber", getQueueNumber());
 	    map.put("totalAmount", getTotalAmount());
@@ -205,6 +213,18 @@ public class Ticket {
 			throw new IllegalArgumentException("id may not contain the delimeter char: \""+DELIMETER+"\"");
 		
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		
+		if (name.contains(DELIMETER))
+			throw new IllegalArgumentException("id may not contain the delimeter char: \""+DELIMETER+"\"");
+		
+		this.name = name;
 	}
 
 	public String getBarcode() {
@@ -281,6 +301,8 @@ public class Ticket {
 	public boolean equals(Ticket ticket) {
 		
 		if (!ticket.getId().equals(id)) {
+			return false;
+		} else if (!ticket.getName().equals(name)) {
 			return false;
 		} else if (!ticket.getBarcode().equals(barcode)) {
 			return false;

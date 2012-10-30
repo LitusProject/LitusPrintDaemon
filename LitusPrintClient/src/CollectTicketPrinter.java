@@ -140,6 +140,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|4C" + ESC + "|bC" + "VTK Cursusdienst" + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getId() + LF);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getName() + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: "+ticket.getQueueNumber() + LF);
 				
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
@@ -158,12 +159,8 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 					
 					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
 					
-					if (printer.getCapRecBarCode() == true) {
-						// print a Code 3 of 9 barcode with the data "123456789012" encoded
-						// the 10 * 100, 60 * 100 parameters below specify the barcode's
-						// height and width in the metric map mode (1cm tall, 6cm wide)
-						printer.printBarCode(POSPrinterConst.PTR_S_RECEIPT, ticket.getItemBarcodes().get(i), POSPrinterConst.PTR_BCS_Code39,
-								700, 4000, POSPrinterConst.PTR_BC_CENTER, POSPrinterConst.PTR_BC_TEXT_BELOW);
+					if (ticket.getItemBarcodes().get(i).length() > 0) {
+						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + ticket.getItemBarcodes().get(i) + LF);
 					}
 					
 					
