@@ -152,12 +152,12 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 						price+=" ";
 					}
 					String itemName = ticket.getItems().get(i);
-					if (itemName.length() > 28) {
-						itemName = itemName.substring(0, 28);
+					if (itemName.length() > 31) {
+						itemName = itemName.substring(0, 31);
 						itemName += "...";
 					}
 					
-					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
+					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " "+EURO+" "+price+" "+itemName + LF);
 				}
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|rA" + ESC + "|bC" + "Totaal:  "+EURO+" "+ticket.getTotalAmount() + LF);

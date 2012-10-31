@@ -152,15 +152,15 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 						price+=" ";
 					}
 					String itemName = ticket.getItems().get(i);
-					if (itemName.length() > 28) {
-						itemName = itemName.substring(0, 28);
+					if (itemName.length() > 31) {
+						itemName = itemName.substring(0, 31);
 						itemName += "...";
 					}
 					
-					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
+					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " "+EURO+" "+price+" "+itemName + LF);
 					
 					if (ticket.getItemBarcodes().get(i).length() > 0) {
-						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + ticket.getItemBarcodes().get(i) + LF);
+						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "         " + ticket.getItemBarcodes().get(i) + LF);
 					}
 					
 					

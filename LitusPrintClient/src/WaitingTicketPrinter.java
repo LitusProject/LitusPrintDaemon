@@ -154,17 +154,12 @@ public class WaitingTicketPrinter implements OutputCompleteListener, StatusUpdat
 						price+=" ";
 					}
 					String itemName = ticket.getItems().get(i);
-					if (itemName.length() > 28) {
-						itemName = itemName.substring(0, 28);
+					if (itemName.length() > 31) {
+						itemName = itemName.substring(0, 31);
 						itemName += "...";
 					}
 					
-					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "    "+EURO+" "+price+"  "+itemName + LF);
-					try {
-						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "               "+ticket.getItemBarcodes().get(i) + LF);	
-					} catch (Exception e) {
-						// Do nothing, no barcodes are in the tickets.
-					}
+					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " "+EURO+" "+price+" "+itemName + LF);
 					
 				}
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
