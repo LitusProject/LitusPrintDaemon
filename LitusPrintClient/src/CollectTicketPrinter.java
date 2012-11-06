@@ -23,7 +23,6 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 		return instance;
 	}
 	
-	
 	public void outputCompleteOccurred(OutputCompleteEvent event) {
 		System.out.println("OutputCompleteEvent received: time = "
 				+ System.currentTimeMillis() + " output id = "
@@ -122,8 +121,6 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 				// once transaction mode is terminated, the buffered data is
 				// outputted to the printer in one shot - increased reliability
 				printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
-
-				
 
 				if (printer.getCapRecBitmap() == true) {
 					// print an image file

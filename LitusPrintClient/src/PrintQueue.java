@@ -1,23 +1,18 @@
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
-import javax.management.InstanceAlreadyExistsException;
-
-
-public class PrintQueu {
+public class PrintQueue {
 	
 	private Queue<Job> jobs = new LinkedList<Job>();
-	private static PrintQueu instance;
+	private static PrintQueue instance;
 	
-	private PrintQueu () {
+	private PrintQueue () {
 		
 	}
 	
-	public static PrintQueu getInstance() {
+	public static PrintQueue getInstance() {
 		if (instance == null) {
-			instance = new PrintQueu();
+			instance = new PrintQueue();
 		}
 		return instance;
 	}

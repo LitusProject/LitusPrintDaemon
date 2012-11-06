@@ -33,7 +33,6 @@ public class ServerConnection {
 	}
 
 	public void startListening() {
-
 		while (true) {
 			try {
 				String s = in.readLine();

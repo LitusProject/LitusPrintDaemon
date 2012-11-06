@@ -3,7 +3,6 @@
 public class PrintDaemon {
 
 	public static void main(String[] args) {
-
 		int serverPortNum;
 		try {
 			serverPortNum = Integer.parseInt(args[1]);
@@ -27,7 +26,5 @@ public class PrintDaemon {
 		PrinterClientListeningThread printerCLientListeningThread = new PrinterClientListeningThread(clientPortNum);
 		(new Thread(serverListeningThread)).start();
 		(new Thread(printerCLientListeningThread)).start();
-
 	}
-
 }

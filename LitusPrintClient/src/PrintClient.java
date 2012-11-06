@@ -11,8 +11,6 @@ public class PrintClient {
 	private static String clientId;
 	
 	public static void main(String[] args) {
-		
-		
 		try {
 			serverIP = args[0];
 		} catch (Exception e) {
@@ -33,7 +31,6 @@ public class PrintClient {
 			clientId = "DefaultPrinter";
 			System.out.println("ERROR: arg3 is not a valid id, using default id: "+clientId);
 		}
-		
 		
 		InetAddress addr = null;
 		try {

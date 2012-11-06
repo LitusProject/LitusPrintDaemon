@@ -15,7 +15,6 @@ public class ServerListeningThread implements Runnable {
 
 	@Override
 	public void run() {
-
 		try {
 		    serverSocket = new ServerSocket(portNum);
 		}
@@ -28,7 +27,6 @@ public class ServerListeningThread implements Runnable {
 		System.out.println("Listening for incoming server connection ...");
 
 		while (true) {
-
 			try {
 			    Socket clientSocket = serverSocket.accept();
 			    System.out.println("Server connected "+clientSocket.getInetAddress().toString()+", assigning new thread to socket ...");
@@ -40,8 +38,5 @@ public class ServerListeningThread implements Runnable {
 			    e.printStackTrace();
 			}
 		}
-
 	}
-
-
 }

@@ -14,7 +14,6 @@ public class PrinterClientListeningThread implements Runnable {
 
 	@Override
 	public void run() {
-
 		try {
 		    serverSocket = new ServerSocket(portNum);
 		}
@@ -27,7 +26,6 @@ public class PrinterClientListeningThread implements Runnable {
 		System.out.println("Listening for incoming printer client connections ...");
 
 		while (true) {
-
 			try {
 			    Socket clientSocket = serverSocket.accept();
 			    System.out.println("Client connected "+clientSocket.getInetAddress().toString()+", assigning new thread to socket.");
@@ -39,7 +37,5 @@ public class PrinterClientListeningThread implements Runnable {
 			    e.printStackTrace();
 			}
 		}
-
 	}
-
 }

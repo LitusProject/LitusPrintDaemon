@@ -1,24 +1,13 @@
-import java.io.ObjectInputStream.GetField;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 
 public class Ticket {
-
-	/**
-	 * The data fields MAY NOT contain the DELIMETER char. This is the only restriction! 
-	 */
-	
-	public static final String DELIMETER ="#";
-	
 	/**
 	 * KOPER ID (s-nummer, ...)
 	 */
@@ -63,90 +52,6 @@ public class Ticket {
 	 * BARCODE LIJST VAN DE AFZONDERLIJK AANGEKOCHTE ITEMS
 	 */
 	private List<String> itemBarcodes;
-	
-	
-	
-	
-	/**
-	 * DEPRECATED!!!!
-	 * Represents all the information of this object in a String.
-	 */
-	@Deprecated
-	public String toString() {
-		
-		
-		// ALLE VELDEN VAN DIT OBJECT WORDEN IN ÉÉN STRING AAN ELKAAR GEZET,
-		// GESCHEIDEN DOOR TWEE KEER DELIMETER CHAR (#). DE VELDEN STAAN IN 
-		// VOLGENDE VOLGORDE:
-		// 			1. KOPER ID
-		//			2. BARCODE ID
-		//			3. WACHTRIJNUMMER
-		//			4. TOTALE PRIJS AANKOOP
-		//			5. LIJST VAN AFZONDERLIJK AANGEKOCHTE ITEMS
-		// 			6. PRIJSLIJST VAN DE AFZONDERLIJK AANGEKOCHTE ITEMS	
-		//
-		// ALS EEN VELD EEN LIJST IS, WORDEN DE AFZONDERLIJKE WAARDEN GESCHEIDEN
-		// DOOR ÉÉN KEER HET DELIMETER CHAR (#).
-		
-		
-		
-		// We beginnen dus met de enkelle velden al aan elkaar te koppellen m.b.v.
-		// het dubbelle DELIMETER char.
-		String s = 	id+DELIMETER+DELIMETER+
-					name+DELIMETER+DELIMETER+
-					barcode+DELIMETER+DELIMETER+
-					queuNumber+DELIMETER+DELIMETER+
-					totalAmount;
-		
-		
-		
-		// We maken van de lijsten strings door hun items aan elkaar te koppellen
-		// m.b.v. het enkelle DELIMETER char.
-		String itemString = "";
-		String priceString = "";
-		for (String item: items) {
-			itemString+=DELIMETER+item;
-		}
-		for (String price: prices) {
-			priceString+=DELIMETER+price;
-		}
-		
-		// We plakken nu ook deze velden achter de andere velden met een dubbel
-		// DELIMETER char (merk op dat de lijsten starten met de DELIMETER char,
-		// hierdoor worden dat dubbelle chars als ze aan elkaar worden geplakt).
-		return s + DELIMETER + itemString +DELIMETER+ priceString;
-	}
-	
-	/**
-	 * DEPRECATED!!!!
-	 * Make an object from the String.
-	 */
-	@Deprecated
-	public static Ticket fromString(String string) {
-		
-		// Splits eerst alles op per veld.
-		String[] fields = string.split(DELIMETER+DELIMETER);
-		
-		try {
-			
-			Ticket job = new Ticket();
-			job.setId(fields[0]);
-			job.setBarcode(fields[1]);
-			job.setQueuNumber(fields[2]);
-			job.setTotalAmount(fields[3]);
-			
-			// Splits de velden die lijsten zijn vervolgens op
-			// in hun afzonderlijke waarden.
-			String[] items = fields[4].split(DELIMETER);
-			String[] prices = fields[5].split(DELIMETER);
-			job.setItems(Arrays.asList(items));
-			job.setPrices(Arrays.asList(prices));
-			return job;
-			
-		} catch (Exception e) {
-			throw new IllegalArgumentException();
-		}
-	}
 	
 	public static Ticket fromJson(String string) {
 		JSONObject jsonObject = JSONObject.fromObject(string);
@@ -202,16 +107,11 @@ public class Ticket {
 	    return obj.toString();
 	}
 	
-	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
-		
-		if (id.contains(DELIMETER))
-			throw new IllegalArgumentException("id may not contain the delimeter char: \""+DELIMETER+"\"");
-		
 		this.id = id;
 	}
 	
@@ -220,10 +120,6 @@ public class Ticket {
 	}
 
 	public void setName(String name) {
-		
-		if (name.contains(DELIMETER))
-			throw new IllegalArgumentException("id may not contain the delimeter char: \""+DELIMETER+"\"");
-		
 		this.name = name;
 	}
 
@@ -232,10 +128,6 @@ public class Ticket {
 	}
 
 	public void setBarcode(String barcode) {
-		
-		if (barcode.contains(DELIMETER))
-			throw new IllegalArgumentException("barcode may not contain the delimeter char: \""+DELIMETER+"\"");
-		
 		this.barcode = barcode;
 	}
 
@@ -244,10 +136,6 @@ public class Ticket {
 	}
 
 	public void setQueuNumber(String queuNumber) {
-
-		if (queuNumber.contains(DELIMETER))
-			throw new IllegalArgumentException("queuNumber may not contain the delimeter char: \""+DELIMETER+"\"");
-		
 		this.queuNumber = queuNumber;
 	}
 
@@ -256,10 +144,6 @@ public class Ticket {
 	}
 
 	public void setTotalAmount(String totalAmount) {
-		
-		if (totalAmount.contains(DELIMETER))
-			throw new IllegalArgumentException("totalAmount may not contain the delimeter char: \""+DELIMETER+"\"");
-		
 		this.totalAmount = totalAmount;
 	}
 
@@ -268,7 +152,6 @@ public class Ticket {
 	}
 
 	public void setItems(List<String> items) {
-		
 		this.items = items;
 	}
 
@@ -299,7 +182,6 @@ public class Ticket {
 	}
 
 	public boolean equals(Ticket ticket) {
-		
 		if (!ticket.getId().equals(id)) {
 			return false;
 		} else if (!ticket.getName().equals(name)) {
@@ -343,5 +225,4 @@ public class Ticket {
 		
 		return true;
 	}
-	
 }

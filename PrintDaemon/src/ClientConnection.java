@@ -34,9 +34,7 @@ public class ClientConnection implements Runnable {
 
 	@Override
 	public void run() {
-
 		try {
-
 			String line = in.readLine();
 			if (line != null) {
 

@@ -13,7 +13,6 @@ import jpos.util.JposPropertiesConst;
 
 public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateListener, ErrorListener {
 
-	
 	private static BillTicketPrinter instance;
 	
 	public static BillTicketPrinter getInstance() {
@@ -22,7 +21,6 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 		}
 		return instance;
 	}
-	
 	
 	public void outputCompleteOccurred(OutputCompleteEvent event) {
 		System.out.println("OutputCompleteEvent received: time = "
@@ -122,8 +120,6 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 				// once transaction mode is terminated, the buffered data is
 				// outputted to the printer in one shot - increased reliability
 				printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_TRANSACTION);
-
-				
 
 				if (printer.getCapRecBitmap() == true) {
 					// print an image file

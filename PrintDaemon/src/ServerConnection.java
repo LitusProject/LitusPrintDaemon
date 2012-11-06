@@ -36,20 +36,15 @@ public class ServerConnection implements Runnable {
 
 	@Override
 	public void run() {
-
 		while (running) {
-
 			try {
-
 				String s = in.readLine();
 
 				if (s != null) {
-					
 					JSONObject jsonObject = JSONObject.fromObject(s);
 					String command = jsonObject.getString("command");
 					
 					if (command != null && command.equals("PRINT")) {
-						
 						String id = jsonObject.getString("id");
 						JSONObject object = jsonObject.getJSONObject("ticket");
 						
@@ -76,6 +71,4 @@ public class ServerConnection implements Runnable {
 			System.out.println("--> Cause: "+e.getMessage());
 		}
 	}
-
-
 }
