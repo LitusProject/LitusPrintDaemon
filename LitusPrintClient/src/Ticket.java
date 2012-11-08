@@ -1,8 +1,9 @@
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -31,7 +32,7 @@ public class Ticket {
 	/**
 	 * WACHTRIJNUMMER
 	 */
-	private String queuNumber;
+	private String queueNumber;
 	
 	/**
 	 * TOTALE PRIJS AANKOOP
@@ -41,17 +42,7 @@ public class Ticket {
 	/**
 	 * LIJST VAN AFZONDERLIJK AANGEKOCHTE ITEMS
 	 */
-	private List<String> items;
-	
-	/**
-	 * PRIJSLIJST VAN DE AFZONDERLIJK AANGEKOCHTE ITEMS
-	 */
-	private List<String> prices;
-	
-	/**
-	 * BARCODE LIJST VAN DE AFZONDERLIJK AANGEKOCHTE ITEMS
-	 */
-	private List<String> itemBarcodes;
+	private List<TicketItem> items = new ArrayList<TicketItem>();
 	
 	public static Ticket fromJson(String string) {
 		JSONObject jsonObject = JSONObject.fromObject(string);
@@ -60,51 +51,18 @@ public class Ticket {
 		job.setId(jsonObject.getString("id"));
 		job.setName(jsonObject.getString("name"));
 		job.setBarcode(jsonObject.getString("barcode"));
-		job.setQueuNumber(jsonObject.getString("queuenumber"));
+		job.setQueueNumber(jsonObject.getString("queuenumber"));
 		job.setTotalAmount(jsonObject.getString("totalAmount"));
 		job.setType(jsonObject.getInt("type"));
 		
-		Object[] oArray = jsonObject.getJSONArray("items").toArray();
-		String[] array =Arrays.asList(oArray).toArray(new String[oArray.length]);
-		job.setItems(Arrays.asList(array));
-		oArray = jsonObject.getJSONArray("prices").toArray();
-		array =Arrays.asList(oArray).toArray(new String[oArray.length]);
-		job.setPrices(Arrays.asList(array));
-		oArray = jsonObject.getJSONArray("itemBarcodes").toArray();
-		array =Arrays.asList(oArray).toArray(new String[oArray.length]);
-		job.setItemBarcodes(Arrays.asList(array));
+
+		JSONArray items = jsonObject.getJSONArray("items");
+		
+		for (int i = 0;i < items.size();i++) {
+			job.addItem(TicketItem.fromJson(items.get(i).toString()));
+		}
 		
 		return job;
-		
-	}
-	
-	public JSONObject toJsonObject() {
-		Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("id", getId());
-	    map.put("name", getName());
-	    map.put("barcode", getBarcode());
-	    map.put("queuenumber", getQueueNumber());
-	    map.put("totalAmount", getTotalAmount());
-	    map.put("type", getType()+"");
-	    map.put("items", getItems());
-	    map.put("prices", getPrices());	    
-	    map.put("itemBarcodes", getItemBarcodes());
-	    
-	    return (JSONObject) JSONSerializer.toJSON(map);
-	}
-	
-	public String toJsonString() {
-		Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("id", getId());
-	    map.put("barcode", getBarcode());
-	    map.put("queuenumber", getQueueNumber());
-	    map.put("totalAmount", getTotalAmount());
-	    map.put("items", getItems());
-	    map.put("prices", getPrices());	    
-	    map.put("itemBarcodes", getItemBarcodes());
-	    
-	    JSONObject obj = (JSONObject) JSONSerializer.toJSON(map);
-	    return obj.toString();
 	}
 	
 	public String getId() {
@@ -132,11 +90,11 @@ public class Ticket {
 	}
 
 	public String getQueueNumber() {
-		return queuNumber;
+		return queueNumber;
 	}
 
-	public void setQueuNumber(String queuNumber) {
-		this.queuNumber = queuNumber;
+	public void setQueueNumber(String queueNumber) {
+		this.queueNumber = queueNumber;
 	}
 
 	public String getTotalAmount() {
@@ -147,30 +105,16 @@ public class Ticket {
 		this.totalAmount = totalAmount;
 	}
 
-	public List<String> getItems() {
+	public List<TicketItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<String> items) {
+	public void setItems(List<TicketItem> items) {
 		this.items = items;
 	}
 
-	public List<String> getPrices() {
-		return prices;
-	}
-
-	public void setPrices(List<String> prices) {
-
-		
-		this.prices = prices;
-	}
-	
-	public void setItemBarcodes(List<String> itemBarcodes) {
-		this.itemBarcodes = itemBarcodes;
-	}
-	
-	public List<String> getItemBarcodes() {
-		return itemBarcodes;
+	public void addItem(TicketItem item) {
+		this.items.add(item);
 	}
 	
 	public int getType() {
@@ -188,7 +132,7 @@ public class Ticket {
 			return false;
 		} else if (!ticket.getBarcode().equals(barcode)) {
 			return false;
-		} else if (!ticket.getQueueNumber().equals(queuNumber)) {
+		} else if (!ticket.getQueueNumber().equals(queueNumber)) {
 			return false;
 		} else if (!ticket.getTotalAmount().equals(totalAmount)) {
 			return false;
@@ -205,24 +149,26 @@ public class Ticket {
 			}
 		}
 		
-		if (prices.size() != ticket.getPrices().size()) {
-			return false;
-		}
-		for (int i = 0; i < prices.size(); i++) {
-			if (!ticket.getPrices().get(i).equals(prices.get(i))) {
-				return false;
-			}
-		}
-		
-		if (itemBarcodes.size() != ticket.getItemBarcodes().size()) {
-			return false;
-		}
-		for (int i = 0; i < prices.size(); i++) {
-			if (!ticket.getItemBarcodes().get(i).equals(itemBarcodes.get(i))) {
-				return false;
-			}
-		}
-		
 		return true;
+	}
+	
+	public String toJsonString() {
+	    return toJsonObject().toString();
+	}
+	
+	public JSONObject toJsonObject() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", getId());
+		map.put("barcode", getBarcode());
+		map.put("queuenumber", getQueueNumber());
+		map.put("totalAmount", getTotalAmount());
+		
+		JSONObject[] oArray = new JSONObject[getItems().size()];
+		for (int i = 0; i < items.size(); i++) {
+			oArray[i] = items.get(i).toJsonObject();
+		}
+		map.put("items", oArray);
+
+	    return (JSONObject) JSONSerializer.toJSON(map);
 	}
 }

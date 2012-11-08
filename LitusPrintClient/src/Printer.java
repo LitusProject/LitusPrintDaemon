@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 
 public class Printer {
 
@@ -31,17 +29,23 @@ public class Printer {
 		Ticket ticket1 = new Ticket();
 		ticket1.setId("s0202187");
 		ticket1.setBarcode("1234567890");
-		ticket1.setQueuNumber("3");
+		ticket1.setQueueNumber("3");
 		ticket1.setTotalAmount("63,00");
 		ticket1.setType(2);
 		
-		String[] items = {"Fundamentals of Computer Graphics","De Bijbel"};
-		String[] itemBarcodes = {"12345","67890"};
-		String[] prices = {"45,00","8,00"};
+		TicketItem item1 = new TicketItem();
+		item1.setTitle("Fundamentals of Computer Graphics");
+		item1.setBarcode("12345");
+		item1.setPrice("45,00");
+		item1.setNumber(1);
+		ticket1.addItem(item1);
 		
-		ticket1.setItems(Arrays.asList(items));
-		ticket1.setItemBarcodes(Arrays.asList(itemBarcodes));
-		ticket1.setPrices(Arrays.asList(prices));
+		TicketItem item2 = new TicketItem();
+		item2.setTitle("De Bijbel");
+		item2.setBarcode("67890");
+		item2.setPrice("8,00");
+		item2.setNumber(1);
+		ticket1.addItem(item2);
 		
 		System.out.println(ticket1.toJsonString());
 		
