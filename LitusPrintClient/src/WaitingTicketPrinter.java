@@ -150,9 +150,16 @@ public class WaitingTicketPrinter implements OutputCompleteListener, StatusUpdat
 						price+=" ";
 					}
 					String itemName = item.getTitle();
-					if (itemName.length() > 31) {
-						itemName = itemName.substring(0, 31);
-						itemName += "...";
+					if (item.getNumber() > 1) {
+						if (itemName.length() > 31 - Integer.toString(item.getNumber()).length() - 4) {
+							itemName = itemName.substring(0, 31 - Integer.toString(item.getNumber()).length() - 4);
+							itemName += "... (x" + item.getNumber() + ")";
+						}
+					} else {
+						if (itemName.length() > 31) {
+							itemName = itemName.substring(0, 31);
+							itemName += "...";
+						}
 					}
 					
 					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " "+EURO+" "+price+" "+itemName + LF);
