@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Properties;
 
 import net.sf.json.JSONObject;
 
@@ -47,6 +49,11 @@ public class ServerConnection implements Runnable {
 					if (command != null && command.equals("PRINT")) {
 						String id = jsonObject.getString("id");
 						JSONObject object = jsonObject.getJSONObject("ticket");
+						
+						Properties prop = new Properties();
+						prop.load(new FileInputStream("key.properties"));
+						
+						object.put("key", prop.getProperty("key"));
 						
 						System.out.println("Looking for id: " + id);
 						ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
