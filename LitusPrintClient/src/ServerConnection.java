@@ -1,8 +1,14 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import net.sf.json.JSONSerializer;
 
 public class ServerConnection {
 
@@ -24,12 +30,19 @@ public class ServerConnection {
 
 	public void sendGreeting() {
 		try {
-			out.write("CONNECT " + id + "\n");
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			map.put("command", "CONNECT");
+			
+			Properties prop = new Properties();
+			prop.load(new FileInputStream("key.properties"));
+			map.put("key", prop.getProperty("key"));
+
+			out.write(JSONSerializer.toJSON(map).toString() + "\n");
 			out.flush();
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
-
 	}
 
 	public void startListening() {

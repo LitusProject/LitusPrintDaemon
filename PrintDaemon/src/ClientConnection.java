@@ -1,8 +1,12 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Properties;
+
+import net.sf.json.JSONObject;
 
 
 public class ClientConnection implements Runnable {
@@ -37,19 +41,25 @@ public class ClientConnection implements Runnable {
 		try {
 			String line = in.readLine();
 			if (line != null) {
+				Properties prop = new Properties();
+				prop.load(new FileInputStream("key.properties"));
+				
+				JSONObject jsonObject = JSONObject.fromObject(line);
+				String command = jsonObject.getString("command");
+				id = jsonObject.getString("id");
 
-				String[] parts = line.split(" ");
-				if (parts.length != 2) {
-					System.out.println("Client "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
-					socket.close();
-				} else if (!parts[0].equals("CONNECT")) {
+				if (command != null && id != null && command.equals("CONNECT")) {
+					if (jsonObject.getString("key").equals(prop.getProperty("key"))) {
+						ConnectionDb.getInstance().addConnection(id, this);
+						System.out.println("Client from "+socket.getInetAddress().toString()+" connected as '"+id+"'.");
+					} else {
+						System.out.println("Client from "+socket.getInetAddress().toString()+" tried to connect as '"+id+"' with wrong key, disconnecting...");
+						socket.close();
+					}
+				} else {
 					System.out.println("Client "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
 					socket.close();
 				}
-				id = parts[1];
-
-				ConnectionDb.getInstance().addConnection(id, this);
-				System.out.println("Client from "+socket.getInetAddress().toString()+" connected as '"+id+"'.");
 			}
 
 		} catch (IOException e) {
