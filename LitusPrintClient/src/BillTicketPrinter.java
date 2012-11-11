@@ -150,9 +150,13 @@ public class BillTicketPrinter implements OutputCompleteListener, StatusUpdateLi
 					}
 					String itemName = item.getTitle();
 					if (item.getNumber() > 1) {
-						if (itemName.length() > 31 - Integer.toString(item.getNumber()).length() - 4) {
-							itemName = itemName.substring(0, 31 - Integer.toString(item.getNumber()).length() - 4);
+						int maxLength = 31 - Integer.toString(item.getNumber()).length();
+						if (itemName.length() > maxLength - 4) {
+							itemName = itemName.substring(0, maxLength - 4);
 							itemName += "... (x" + item.getNumber() + ")";
+						} else {
+							itemName = String.format("%1$-" + maxLength + "s", itemName);
+							itemName += "(x" + item.getNumber() + ")";
 						}
 					} else {
 						if (itemName.length() > 31) {
