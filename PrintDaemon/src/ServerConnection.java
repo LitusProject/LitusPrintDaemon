@@ -46,18 +46,23 @@ public class ServerConnection implements Runnable {
 					JSONObject jsonObject = JSONObject.fromObject(s);
 					String command = jsonObject.getString("command");
 					
-					if (command != null && command.equals("PRINT")) {
-						String id = jsonObject.getString("id");
-						JSONObject object = jsonObject.getJSONObject("ticket");
-						
-						Properties prop = new Properties();
-						prop.load(new FileInputStream("key.properties"));
-						
-						object.put("key", prop.getProperty("key"));
-						
-						System.out.println("Looking for id: " + id);
-						ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
-						connection.send(object.toString());
+					Properties prop = new Properties();
+					prop.load(new FileInputStream("key.properties"));
+					
+					if (jsonObject.getString("key") != null && jsonObject.getString("key").equals(prop.getProperty("key"))) {
+						if (command != null && command.equals("PRINT")) {
+							String id = jsonObject.getString("id");
+							JSONObject object = jsonObject.getJSONObject("ticket");
+							
+							object.put("key", prop.getProperty("key"));
+							
+							System.out.println("Looking for id: " + id);
+							ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
+							connection.send(object.toString());
+						}
+					} else {
+						System.out.println("Print command send with wrong key, disconnecting...");
+						close();
 					}
 				} else {
 					return;
