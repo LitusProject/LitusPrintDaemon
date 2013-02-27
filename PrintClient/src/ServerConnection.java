@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.channels.ClosedChannelException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -46,7 +47,7 @@ public class ServerConnection {
 		}
 	}
 
-	public void startListening() {
+	public void startListening() throws IOException {
 		while (true) {
 			try {
 				String s = in.readLine();
@@ -81,10 +82,12 @@ public class ServerConnection {
 						System.out.println("> Server gave wrong authentication key, disconnecting ...");
 						socket.close();
 					}
+				} else {
+					throw new ClosedChannelException();
 				}
-			}
-
-			catch (IOException e) {
+			} catch(ClosedChannelException e) {
+				throw e;
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}

@@ -42,13 +42,18 @@ public class PrintClient {
 		
 		System.out.println("Connecting to server at "+serverIP+" at port "+serverPort+" with id '"+clientId+"'.");
 		
-		try {	
-			Socket socket = new Socket(addr,serverPort);
-			ServerConnection connection = new ServerConnection(socket, clientId);
-			connection.sendGreeting();
-			connection.startListening();
-		} catch (IOException e) {
-			e.printStackTrace();
+		while(true) {
+			try {	
+				Socket socket = new Socket(addr,serverPort);
+				ServerConnection connection = new ServerConnection(socket, clientId);
+				connection.sendGreeting();
+				connection.startListening();
+			} catch (IOException e) {
+				e.printStackTrace();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {}
+			}
 		}
 	}
 }
