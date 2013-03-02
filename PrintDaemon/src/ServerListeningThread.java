@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 
 public class ServerListeningThread implements Runnable {
@@ -19,22 +20,22 @@ public class ServerListeningThread implements Runnable {
 		    serverSocket = new ServerSocket(portNum);
 		}
 		catch (IOException e) {
-		    System.out.println("ERROR: Could not listen on port: "+portNum);
+		    System.out.println("["+(new Date()).toString()+"]: ERROR: Could not listen on port: "+portNum);
 		    e.printStackTrace();
 		    System.exit(-1);
 		}
 
-		System.out.println("Listening for incoming server connection ...");
+		System.out.println("["+(new Date()).toString()+"]: Listening for incoming server connection ...");
 
 		while (true) {
 			try {
 			    Socket clientSocket = serverSocket.accept();
-			    System.out.println("Server connected "+clientSocket.getInetAddress().toString()+", assigning new thread to socket ...");
+			    System.out.println("["+(new Date()).toString()+"]: Server connected "+clientSocket.getInetAddress().toString()+", assigning new thread to socket ...");
 			    ServerConnection thread = new ServerConnection(clientSocket);
 			    (new Thread(thread)).start();
 			}
 			catch (IOException e) {
-			    System.out.println("Accepting server socket failed: "+portNum);
+			    System.out.println("["+(new Date()).toString()+"]: Accepting server socket failed: "+portNum);
 			    e.printStackTrace();
 			}
 		}

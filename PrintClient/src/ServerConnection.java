@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.channels.ClosedChannelException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -70,6 +71,7 @@ public class ServerConnection {
 							}
 
 						} catch (Exception e) {
+							System.out.println("["+(new Date()).toString()+"]");
 							System.out.println("> Error: " + e.getMessage());
 							System.out.println("> Received string: '"+s+"'");
 							System.out.println("> Server does not use the LPS protocol, disconnecting ...");
@@ -77,6 +79,7 @@ public class ServerConnection {
 							socket.close();
 						}
 					} else {
+						System.out.println("["+(new Date()).toString()+"]");
 						System.out.println("> Error: wrong authentication key");
 						System.out.println("> Received string: '"+s+"'");
 						System.out.println("> Server gave wrong authentication key, disconnecting ...");

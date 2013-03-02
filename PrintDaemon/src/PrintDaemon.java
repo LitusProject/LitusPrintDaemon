@@ -1,3 +1,5 @@
+import java.util.Date;
+
 
 
 public class PrintDaemon {
@@ -6,19 +8,19 @@ public class PrintDaemon {
 		int serverPortNum;
 		try {
 			serverPortNum = Integer.parseInt(args[1]);
-			System.out.println("Starting listening for server connection on port "+serverPortNum);
+			System.out.println("["+(new Date()).toString()+"]: Starting listening for server connection on port "+serverPortNum);
 		} catch (Exception e) {
 			serverPortNum = 4445;
-			System.out.println("ERROR: arg2 is not a valid port number, using default port: "+serverPortNum);
+			System.out.println("["+(new Date()).toString()+"]: ERROR: arg2 is not a valid port number, using default port: "+serverPortNum);
 		}
 
 		int clientPortNum;
 		try {
 			clientPortNum = Integer.parseInt(args[0]);
-			System.out.println("Starting listening for client connections on port "+clientPortNum);
+			System.out.println("["+(new Date()).toString()+"]: Starting listening for client connections on port "+clientPortNum);
 		} catch (Exception e) {
 			clientPortNum = 4444;
-			System.out.println("ERROR: arg1 is not a valid port number, using default port: "+clientPortNum);
+			System.out.println("["+(new Date()).toString()+"]: ERROR: arg1 is not a valid port number, using default port: "+clientPortNum);
 		}
 
 		// Start running the Listener threads

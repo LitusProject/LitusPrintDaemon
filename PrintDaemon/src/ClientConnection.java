@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Properties;
 
 import net.sf.json.JSONObject;
@@ -25,12 +26,12 @@ public class ClientConnection implements Runnable {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
-			System.out.println("Could not open streams in socket from '"+id+"', closing the socket.");
+			System.out.println("["+(new Date()).toString()+"]: Could not open streams in socket from '"+id+"', closing the socket.");
 			System.out.println("--> Cause: "+e.getMessage());
 			try {
 				socket.close();
 			} catch (IOException e2) {
-				System.out.println("Could not close socket from '"+id+"'.");
+				System.out.println("["+(new Date()).toString()+"]: Could not close socket from '"+id+"'.");
 				System.out.println("--> Cause: "+e2.getMessage());
 			}
 		}
@@ -51,19 +52,19 @@ public class ClientConnection implements Runnable {
 				if (command != null && id != null && command.equals("CONNECT")) {
 					if (jsonObject.getString("key").equals(prop.getProperty("key"))) {
 						ConnectionDb.getInstance().addConnection(id, this);
-						System.out.println("Client from "+socket.getInetAddress().toString()+" connected as '"+id+"'.");
+						System.out.println("["+(new Date()).toString()+"]: Client from "+socket.getInetAddress().toString()+" connected as '"+id+"'.");
 					} else {
-						System.out.println("Client from "+socket.getInetAddress().toString()+" tried to connect as '"+id+"' with wrong key, disconnecting...");
+						System.out.println("["+(new Date()).toString()+"]: Client from "+socket.getInetAddress().toString()+" tried to connect as '"+id+"' with wrong key, disconnecting...");
 						socket.close();
 					}
 				} else {
-					System.out.println("Client "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
+					System.out.println("["+(new Date()).toString()+"]: Client "+socket.getInetAddress().toString()+"does not use the LPS protocol, disconnecting ...");
 					socket.close();
 				}
 			}
 
 		} catch (IOException e) {
-			System.out.println("Exception in socket from '"+id+"', closing the connection.");
+			System.out.println("["+(new Date()).toString()+"]: Exception in socket from '"+id+"', closing the connection.");
 			System.out.println("--> Cause: "+e.getMessage());
 			close();
 		}
@@ -76,7 +77,7 @@ public class ClientConnection implements Runnable {
 		try {
 			socket.close();
 		} catch (IOException e) {
-			System.out.println("Exception while closing connection to '"+id+"'.");
+			System.out.println("["+(new Date()).toString()+"]: Exception while closing connection to '"+id+"'.");
 			System.out.println("--> Cause: "+e.getMessage());
 		}
 	}
@@ -86,7 +87,7 @@ public class ClientConnection implements Runnable {
 			out.write(command+"\n");
 			out.flush();
 		} catch (Exception e) {
-			System.out.println("Exception in socket from '"+id+"', closing the connection.");
+			System.out.println("["+(new Date()).toString()+"]: Exception in socket from '"+id+"', closing the connection.");
 			System.out.println("--> Cause: "+e.getMessage());
 			close();
 		}

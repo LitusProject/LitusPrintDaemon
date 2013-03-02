@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Properties;
 
 import net.sf.json.JSONObject;
@@ -25,12 +26,12 @@ public class ServerConnection implements Runnable {
 			out = new PrintWriter(socket.getOutputStream(), true);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		} catch (IOException e) {
-			System.out.println("Could not open streams in server socket connection, closing the socket.");
+			System.out.println("["+(new Date()).toString()+"]: Could not open streams in server socket connection, closing the socket.");
 			System.out.println("--> Cause: "+e.getMessage());
 			try {
 				socket.close();
 			} catch (IOException e2) {
-				System.out.println("Could not close server socket connection.");
+				System.out.println("["+(new Date()).toString()+"]: Could not close server socket connection.");
 				System.out.println("--> Cause: "+e2.getMessage());
 			}
 		}
@@ -56,19 +57,24 @@ public class ServerConnection implements Runnable {
 							
 							object.put("key", prop.getProperty("key"));
 							
-							System.out.println("Looking for id: " + id);
+							System.out.println("["+(new Date()).toString()+"]: Looking for id: " + id);
 							ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
-							connection.send(object.toString());
+							if (connection != null) {
+								System.out.println("["+(new Date()).toString()+"]: Data send to: " + id);
+								connection.send(object.toString());
+							} else {
+								System.out.println("["+(new Date()).toString()+"]: Not found: " + id);
+							}
 						}
 					} else {
-						System.out.println("Print command send with wrong key, disconnecting...");
+						System.out.println("["+(new Date()).toString()+"]: Print command send with wrong key, disconnecting...");
 						close();
 					}
 				} else {
 					return;
 				}
 			} catch (IOException e) {
-				System.out.println("Exception in server socket, closing the connection.");
+				System.out.println("["+(new Date()).toString()+"]: Exception in server socket, closing the connection.");
 				System.out.println("--> Cause: "+e.getMessage());
 				close();
 			}
@@ -79,7 +85,7 @@ public class ServerConnection implements Runnable {
 		try {
 			socket.close();
 		} catch (IOException e) {
-			System.out.println("Exception while closing connection to server.");
+			System.out.println("["+(new Date()).toString()+"]: Exception while closing connection to server.");
 			System.out.println("--> Cause: "+e.getMessage());
 		}
 	}

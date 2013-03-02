@@ -1,3 +1,5 @@
+import java.util.Date;
+
 import jpos.JposConst;
 import jpos.JposException;
 import jpos.POSPrinter;
@@ -24,17 +26,17 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 	}
 	
 	public void outputCompleteOccurred(OutputCompleteEvent event) {
-		System.out.println("OutputCompleteEvent received: time = "
+		System.out.println("["+(new Date()).toString()+"]: OutputCompleteEvent received: time = "
 				+ System.currentTimeMillis() + " output id = "
 				+ event.getOutputID());
 	}
 
 	public void statusUpdateOccurred(StatusUpdateEvent event) {
-		System.out.println("StatusUpdateEvent : status id = " + event.getStatus());
+		System.out.println("["+(new Date()).toString()+"]: StatusUpdateEvent : status id = " + event.getStatus());
 	}
 
 	public void errorOccurred(ErrorEvent event) {
-		System.out.println("ErrorEvent received: time = "
+		System.out.println("["+(new Date()).toString()+"]: ErrorEvent received: time = "
 				+ System.currentTimeMillis() + " error code = "
 				+ event.getErrorCode() + " error code extended = "
 				+ event.getErrorCodeExtended());
@@ -102,7 +104,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				// check if the cover is open
 				if (printer.getCoverOpen() == true) {
-					System.out.println("printer.getCoverOpen() == true");
+					System.out.println("["+(new Date()).toString()+"]: printer.getCoverOpen() == true");
 
 					// cover open so do not attempt printing
 					break;
@@ -110,7 +112,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				// check if the printer is out of paper
 				if (printer.getRecEmpty() == true) {
-					System.out.println("printer.getRecEmpty() == true");
+					System.out.println("["+(new Date()).toString()+"]: printer.getRecEmpty() == true");
 
 					// the printer is out of paper so do not attempt printing
 					break;
@@ -198,7 +200,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 				// data to be sent to the printer
 				printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
 
-				System.out.println("Async transaction print submited: time = "
+				System.out.println("["+(new Date()).toString()+"]: Async transaction print submited: time = "
 						+ System.currentTimeMillis() + " output id = " + printer.getOutputID());
 
 				// exit our printing loop
@@ -222,6 +224,6 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 			}
 		}
 
-		System.out.println("Collect ticket printed");
+		System.out.println("["+(new Date()).toString()+"]: Collect ticket printed");
 	}
 }

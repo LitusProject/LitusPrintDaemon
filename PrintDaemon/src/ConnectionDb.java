@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -18,12 +19,12 @@ public class ConnectionDb {
 	}
 
 	public void addConnection(String id, ClientConnection connection) {
-		System.out.println("Adding connection with id: " + id);
+		System.out.println("["+(new Date()).toString()+"]: Adding connection with id: " + id);
 		connections.put(id, connection);
 	}
 
 	public ClientConnection getConnection(String id) {
-		System.out.println("Fetching connection with id: " + id);
+		System.out.println("["+(new Date()).toString()+"]: Fetching connection with id: " + id);
 		return connections.get(id);
 	}
 
