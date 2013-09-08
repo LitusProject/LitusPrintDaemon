@@ -38,8 +38,11 @@ public class ServerConnection {
 			map.put("command", "CONNECT");
 			
 			Properties prop = new Properties();
-			prop.load(new FileInputStream("key.properties"));
-			map.put("key", prop.getProperty("key"));
+			prop.loadFromXML(new FileInputStream("keys.xml"));
+			JSONObject keys = JSONObject.fromObject(prop.getProperty("keys"));
+			String organization = id.substring(0, id.indexOf("-"));
+
+			map.put("key", keys.getString(organization));
 
 			out.write(JSONSerializer.toJSON(map).toString() + "\n");
 			out.flush();

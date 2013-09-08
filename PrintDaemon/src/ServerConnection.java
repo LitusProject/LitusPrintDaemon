@@ -46,13 +46,16 @@ public class ServerConnection implements Runnable {
 				if (s != null) {
 					JSONObject jsonObject = JSONObject.fromObject(s);
 					String command = jsonObject.getString("command");
-					
+
 					Properties prop = new Properties();
-					prop.load(new FileInputStream("key.properties"));
+					prop.loadFromXML(new FileInputStream("keys.xml"));
+					JSONObject keys = JSONObject.fromObject(prop.getProperty("keys"));
 					
-					if (jsonObject.getString("key") != null && jsonObject.getString("key").equals(prop.getProperty("key"))) {
+					String id = jsonObject.getString("id");
+					String organization = id.substring(0, id.indexOf("-"));
+					
+					if (jsonObject.getString("key") != null && jsonObject.getString("key").equals(keys.getString(organization))) {
 						if (command != null && command.equals("PRINT")) {
-							String id = jsonObject.getString("id");
 							JSONObject object = jsonObject.getJSONObject("ticket");
 							
 							object.put("key", prop.getProperty("key"));
