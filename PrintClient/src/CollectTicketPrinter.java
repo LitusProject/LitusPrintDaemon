@@ -127,7 +127,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 				if (printer.getCapRecBitmap() == true) {
 					// print an image file
 					try {
-						printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, "vtk.gif", POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
+						printer.printBitmap(POSPrinterConst.PTR_S_RECEIPT, "logo.gif", POSPrinterConst.PTR_BM_ASIS, POSPrinterConst.PTR_BM_CENTER);
 					} catch (JposException e) {
 						if (e.getErrorCode() != JposConst.JPOS_E_NOEXIST) {
 							// error other than file not exist - propogate it
