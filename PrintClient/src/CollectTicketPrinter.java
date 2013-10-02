@@ -137,10 +137,10 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 					}
 				}
 
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|4C" + ESC + "|bC" + "VTK Cursusdienst" + LF);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|4C" + ESC + "|bC" + ticket.getTitle() + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getId() + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getName() + LF);
-				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: "+ticket.getQueueNumber() + LF);
+				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: " + ticket.getQueueNumber() + LF);
 				
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				for (int i = 0;i < ticket.getItems().size();i++) {

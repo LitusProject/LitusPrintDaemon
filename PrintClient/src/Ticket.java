@@ -15,6 +15,11 @@ public class Ticket {
 	private String id;
 	
 	/**
+	 * TICKET TITEL
+	 */
+	private String title;
+	
+	/**
 	 * KOPER NAAM ()
 	 */
 	private String name;
@@ -49,6 +54,7 @@ public class Ticket {
 		
 		Ticket job = new Ticket();
 		job.setId(jsonObject.getString("id"));
+		job.setTitle(jsonObject.getString("title"));
 		job.setName(jsonObject.getString("name"));
 		job.setBarcode(jsonObject.getString("barcode"));
 		job.setQueueNumber(jsonObject.getString("queuenumber"));
@@ -71,6 +77,14 @@ public class Ticket {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	public String getName() {
@@ -128,6 +142,8 @@ public class Ticket {
 	public boolean equals(Ticket ticket) {
 		if (!ticket.getId().equals(id)) {
 			return false;
+		} else if (!ticket.getTitle().equals(title)) {
+			return false;
 		} else if (!ticket.getName().equals(name)) {
 			return false;
 		} else if (!ticket.getBarcode().equals(barcode)) {
@@ -159,6 +175,8 @@ public class Ticket {
 	public JSONObject toJsonObject() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", getId());
+		map.put("title", getTitle());
+		map.put("name", getName());
 		map.put("barcode", getBarcode());
 		map.put("queuenumber", getQueueNumber());
 		map.put("totalAmount", getTotalAmount());

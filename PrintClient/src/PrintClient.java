@@ -29,7 +29,7 @@ public class PrintClient {
 		try {
 			clientId = args[2];
 		} catch (Exception e) {
-			clientId = "DefaultPrinter";
+			clientId = "LITUS-DefaultPrinter";
 			System.out.println("["+(new Date()).toString()+"]: ERROR: arg3 is not a valid id, using default id: "+clientId);
 		}
 		

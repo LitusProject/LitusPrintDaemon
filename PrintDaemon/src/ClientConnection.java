@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Date;
 import java.util.Properties;
-
 import net.sf.json.JSONObject;
 
 
@@ -43,14 +42,17 @@ public class ClientConnection implements Runnable {
 			String line = in.readLine();
 			if (line != null) {
 				Properties prop = new Properties();
-				prop.load(new FileInputStream("key.properties"));
+				prop.loadFromXML(new FileInputStream("keys.xml"));
+				JSONObject keys = JSONObject.fromObject(prop.getProperty("keys"));
 				
 				JSONObject jsonObject = JSONObject.fromObject(line);
 				String command = jsonObject.getString("command");
 				id = jsonObject.getString("id");
 
-				if (command != null && id != null && command.equals("CONNECT")) {
-					if (jsonObject.getString("key").equals(prop.getProperty("key"))) {
+				if (command != null && id != null && command.equals("CONNECT") && id.indexOf("-") > 0) {
+					String organization = id.substring(0, id.indexOf("-"));
+					
+					if (jsonObject.getString("key").equals(keys.getString(organization))) {
 						ConnectionDb.getInstance().addConnection(id, this);
 						System.out.println("["+(new Date()).toString()+"]: Client from "+socket.getInetAddress().toString()+" connected as '"+id+"'.");
 					} else {
