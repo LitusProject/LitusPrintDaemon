@@ -58,7 +58,8 @@ public class ServerConnection implements Runnable {
 						if (command != null && command.equals("PRINT")) {
 							JSONObject object = jsonObject.getJSONObject("ticket");
 							
-							object.put("key", prop.getProperty("key"));
+							object.put("key", jsonObject.getString("key"));
+							object.put("printer", id);
 							
 							System.out.println("["+(new Date()).toString()+"]: Looking for id: " + id);
 							ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);

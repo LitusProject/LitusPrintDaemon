@@ -56,12 +56,16 @@ public class ServerConnection {
 			try {
 				String s = in.readLine();
 				if (s != null) {
+					JSONObject jsonObject = JSONObject.fromObject(s);
+					
 					Properties prop = new Properties();
-					prop.load(new FileInputStream("key.properties"));
+					prop.loadFromXML(new FileInputStream("keys.xml"));
+					JSONObject keys = JSONObject.fromObject(prop.getProperty("keys"));
 					
-					JSONObject object = JSONObject.fromObject(s);
+					String id = jsonObject.getString("printer");
+					String organization = id.substring(0, id.indexOf("-"));
 					
-					if (object.getString("key").equals(prop.getProperty("key"))) {
+					if (jsonObject.getString("key") != null && jsonObject.getString("key").equals(keys.getString(organization))) {
 						try {
 							Ticket ticket = Ticket.fromJson(s);
 
