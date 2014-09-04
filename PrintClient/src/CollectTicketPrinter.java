@@ -1,3 +1,20 @@
+/**
+ * Litus is a project by a group of students from the KU Leuven. The goal is to create
+ * various applications to support the IT needs of student unions.
+ *
+ * @author Niels Avonds <niels.avonds@litus.cc>
+ * @author Karsten Daemen <karsten.daemen@litus.cc>
+ * @author Koen Certyn <koen.certyn@litus.cc>
+ * @author Bram Gotink <bram.gotink@litus.cc>
+ * @author Dario Incalza <dario.incalza@litus.cc>
+ * @author Pieter Maene <pieter.maene@litus.cc>
+ * @author Kristof Mariën <kristof.marien@litus.cc>
+ * @author Lars Vierbergen <lars.vierbergen@litus.cc>
+ * @author Daan Wendelen <daan.wendelen@litus.cc>
+ *
+ * @license http://litus.cc/LICENSE
+ */
+
 import java.util.Date;
 
 import jpos.JposConst;
@@ -13,30 +30,30 @@ import jpos.events.StatusUpdateEvent;
 import jpos.events.StatusUpdateListener;
 import jpos.util.JposPropertiesConst;
 
+
 public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdateListener, ErrorListener {
 
-	
 	private static CollectTicketPrinter instance;
-	
+
 	public static CollectTicketPrinter getInstance() {
-		if (instance == null) {
+		if (instance == null)
 			instance = new CollectTicketPrinter();
-		}
+
 		return instance;
 	}
-	
+
 	public void outputCompleteOccurred(OutputCompleteEvent event) {
-		System.out.println("["+(new Date()).toString()+"]: OutputCompleteEvent received: time = "
+		System.out.println("[" + (new Date()).toString() + "]: OutputCompleteEvent received: time = "
 				+ System.currentTimeMillis() + " output id = "
 				+ event.getOutputID());
 	}
 
 	public void statusUpdateOccurred(StatusUpdateEvent event) {
-		System.out.println("["+(new Date()).toString()+"]: StatusUpdateEvent : status id = " + event.getStatus());
+		System.out.println("[" + (new Date()).toString() + "]: StatusUpdateEvent : status id = " + event.getStatus());
 	}
 
 	public void errorOccurred(ErrorEvent event) {
-		System.out.println("["+(new Date()).toString()+"]: ErrorEvent received: time = "
+		System.out.println("[" + (new Date()).toString() + "]: ErrorEvent received: time = "
 				+ System.currentTimeMillis() + " error code = "
 				+ event.getErrorCode() + " error code extended = "
 				+ event.getErrorCodeExtended());
@@ -54,7 +71,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 		 * If you want to place the jpos.xml file elsewhere on your local file
 		 * system then uncomment the following line and specify the full path to
 		 * jpos.xml.
-		 * 
+		 *
 		 * If you want to place the jpos.xml file on a webserver for access over
 		 * the internet then uncomment the second System.setProperty line below
 		 * and specify the full URL to jpos.xml.
@@ -104,7 +121,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				// check if the cover is open
 				if (printer.getCoverOpen() == true) {
-					System.out.println("["+(new Date()).toString()+"]: printer.getCoverOpen() == true");
+					System.out.println("[" + (new Date()).toString() + "]: printer.getCoverOpen() == true");
 
 					// cover open so do not attempt printing
 					break;
@@ -112,7 +129,7 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 
 				// check if the printer is out of paper
 				if (printer.getRecEmpty() == true) {
-					System.out.println("["+(new Date()).toString()+"]: printer.getRecEmpty() == true");
+					System.out.println("[" + (new Date()).toString() + "]: printer.getRecEmpty() == true");
 
 					// the printer is out of paper so do not attempt printing
 					break;
@@ -141,17 +158,21 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getId() + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + ticket.getName() + LF);
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|cA" + ESC + "|bC" + "Nummer in Wachtrij: " + ticket.getQueueNumber() + LF);
-				
+
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
-				for (int i = 0;i < ticket.getItems().size();i++) {
+
+				for (int i = 0; i < ticket.getItems().size(); i++) {
 					TicketItem item = ticket.getItems().get(i);
-					
+
 					String price = item.getPrice();
-					int spacesToAdd = 6-price.length();
-					for (int j=0;j<spacesToAdd;j++) {
-						price+=" ";
+					int spacesToAdd = 6 - price.length();
+
+					for (int j = 0; j < spacesToAdd; j++) {
+						price += " ";
 					}
+
 					String itemName = item.getTitle();
+
 					if (item.getNumber() > 1) {
 						int maxLength = 31 - Integer.toString(item.getNumber()).length();
 						if (itemName.length() > maxLength - 4) {
@@ -167,22 +188,18 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 							itemName += "...";
 						}
 					}
-					
-					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " "+EURO+" "+price+" "+itemName + LF);
-					
-					if (item.getBarcode().length() > 0) {
+
+					printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, " " + EURO + " " + price + " " + itemName + LF);
+
+					if (item.getBarcode().length() > 0)
 						printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, "         " + item.getBarcode() + LF);
-					}
-					
-					
 				}
+
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|rA" + ESC + "|bC" + "Totaal:  "+EURO+" "+ticket.getTotalAmount() + LF);
 
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT,"\n");
-				
-				
 
 				if (printer.getCapRecBarCode() == true) {
 					// print a Code 3 of 9 barcode with the data "123456789012" encoded
@@ -191,16 +208,16 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 					printer.printBarCode(POSPrinterConst.PTR_S_RECEIPT, ticket.getBarcode(), POSPrinterConst.PTR_BCS_Code39,
 							10 * 100, 60 * 100, POSPrinterConst.PTR_BC_CENTER, POSPrinterConst.PTR_BC_TEXT_BELOW);
 				}
-				
+
 				// the ESC + "|100fP" control code causes the printer to execute
 				// a paper cut after feeding to the cutter position
 				printer.printNormal(POSPrinterConst.PTR_S_RECEIPT, ESC + "|100fP");
-				
+
 				// terminate the transaction causing all of the above buffered
 				// data to be sent to the printer
 				printer.transactionPrint(POSPrinterConst.PTR_S_RECEIPT, POSPrinterConst.PTR_TP_NORMAL);
 
-				System.out.println("["+(new Date()).toString()+"]: Async transaction print submited: time = "
+				System.out.println("[" + (new Date()).toString() + "]: Async transaction print submited: time = "
 						+ System.currentTimeMillis() + " output id = " + printer.getOutputID());
 
 				// exit our printing loop
@@ -224,6 +241,6 @@ public class CollectTicketPrinter implements OutputCompleteListener, StatusUpdat
 			}
 		}
 
-		System.out.println("["+(new Date()).toString()+"]: Collect ticket printed");
+		System.out.println("[" + (new Date()).toString() + "]: Collect ticket printed");
 	}
 }
