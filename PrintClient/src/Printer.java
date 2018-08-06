@@ -40,6 +40,10 @@ public class Printer {
 	public void printCollectTicket(Ticket ticket) {
 		CollectTicketPrinter.getInstance().printTicket(ticket);
 	}
+	
+	public void printMembershipCard(MembershipCard card) {
+		MembershipCardPrinter.getInstance().printCard(card);
+	}
 
 	public static void main (String[] args) {
 		Ticket ticket1 = new Ticket();

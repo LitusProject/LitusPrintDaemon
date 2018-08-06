@@ -85,14 +85,20 @@ public class ServerConnection {
 
 					if (jsonObject.getString("key") != null && jsonObject.getString("key").equals(keys.getString(organization))) {
 						try {
-							Ticket ticket = Ticket.fromJson(s);
+							int printableType = jsonObject.getInt("type");
 
-							if (ticket.getType() == 1) {
+							if (printableType == 1) {
+								Ticket ticket = Ticket.fromJson(s);
 								Printer.getInstance().printWaitingTicket(ticket);
-							} else if (ticket.getType() == 2) {
+							} else if (printableType == 2) {
+								Ticket ticket = Ticket.fromJson(s);
 								Printer.getInstance().printCollectTicket(ticket);
-							} else if (ticket.getType() == 3) {
+							} else if (printableType == 3) {
+								Ticket ticket = Ticket.fromJson(s);
 								Printer.getInstance().printBillTicket(ticket);
+							} else if (printableType == 4) {
+								MembershipCard card = MembershipCard.fromJson(s);
+								Printer.getInstance().printMembershipCard(card);
 							}
 
 						} catch (Exception e) {
