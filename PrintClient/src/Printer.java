@@ -46,7 +46,7 @@ public class Printer {
 	}
 
 	public static void main (String[] args) {
-		Ticket ticket1 = new Ticket();
+		/*Ticket ticket1 = new Ticket();
 		ticket1.setId("s0202187");
 		ticket1.setBarcode("1234567890");
 		ticket1.setQueueNumber("3");
@@ -69,6 +69,16 @@ public class Printer {
 
 		System.out.println(ticket1.toJsonString());
 
-		getInstance().printWaitingTicket(ticket1);
+		getInstance().printWaitingTicket(ticket1);*/
+		
+		MembershipCard card = new MembershipCard();
+		card.setId("r0486429");
+		card.setFirstName("Matthias");
+		card.setLastName("Swiggers");
+		card.setComment("Organisatie 2018-2019");
+		
+		System.out.println(card.toJsonString());
+		
+		getInstance().printMembershipCard(card);
 	}
 }
