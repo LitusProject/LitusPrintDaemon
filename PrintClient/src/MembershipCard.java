@@ -15,12 +15,9 @@
  * @license http://litus.cc/LICENSE
  */
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
@@ -65,10 +62,15 @@ public class MembershipCard {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public String getFullName() {
+		return firstName + " " + lastName;
+	}
 		
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
 	public String getComment() {
 		return comment;
 	}
@@ -87,5 +89,19 @@ public class MembershipCard {
 		card.setComment(jsonObject.getString("comment"));
 		
 		return card;
+	}
+	
+	public String toJsonString() {
+	    return toJsonObject().toString();
+	}
+
+	public JSONObject toJsonObject() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", getId());
+		map.put("firstName", getFirstName());
+		map.put("lastName", getLastName());
+		map.put("comment", getComment());
+
+	    return (JSONObject) JSONSerializer.toJSON(map);
 	}
 }
