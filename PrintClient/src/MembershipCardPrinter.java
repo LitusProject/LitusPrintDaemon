@@ -16,19 +16,11 @@
  */
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-import jpos.JposConst;
-import jpos.JposException;
-import jpos.POSPrinter;
-import jpos.POSPrinterConst;
-
-import jpos.events.ErrorEvent;
-import jpos.events.ErrorListener;
-import jpos.events.OutputCompleteEvent;
-import jpos.events.OutputCompleteListener;
-import jpos.events.StatusUpdateEvent;
-import jpos.events.StatusUpdateListener;
-import jpos.util.JposPropertiesConst;
+import com.zebra.sdk.printer.discovery.DiscoveredUsbPrinter;
+import com.zebra.sdk.printer.discovery.UsbDiscoverer;
 
 
 public class MembershipCardPrinter {
@@ -43,6 +35,34 @@ public class MembershipCardPrinter {
 	}
 	
 	public void printCard(MembershipCard card) {
+		DiscoveredUsbPrinter printer = null;
+		//Discover all USB printers
+		try {
+			for (DiscoveredUsbPrinter discoPrinter : UsbDiscoverer.getZebraUsbPrinters()) {
+				if(discoPrinter.getDiscoveryDataMap().get("MODEL").contains("ZXP")) {
+					printer = discoPrinter;
+				}
+			}
+		} catch(Exception e) {
+			System.out.println("[" + (new Date()).toString() + "]: Unable to discover printers : " + e.getLocalizedMessage());
+		}
 		
+		if(printer == null) {
+			System.out.println("[" + (new Date()).toString() + "]: No suitable printer was detected via USB.");
+			return;
+		}
+		
+		try {
+			TemplateModel templateModel = new TemplateModel("card.xml");
+			
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("barcode", card.getId());
+			map.put("full_name", card.getFullName());
+			map.put("academic_year", card.getComment());
+			
+			templateModel.print(printer, map);
+		} catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
+		}
 	}
 }
