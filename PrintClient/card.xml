@@ -7,9 +7,9 @@
 		<side name="front" orientation="landscape" rotation="0" sharpness="off" k_mode="mixed">
 			<print_types>
 				<print_type type="mono">
-					<text order_id="1" field="full_name" font_id="0" x="36" y="60" color="#000000" angle="0" height="96" width="960" alignment="left" v_alignment="center" shrink="yes"/>
-					<barcode order_id="2" field="barcode" font_id="0" x="108" y="180" rotation="0" code="ean13" height="240" multiplier="8" ratio="3" bar-height="240" quiet_zone_width="0" show_text="yes" add_checksum="auto"/>
-					<text order_id="3" field="academic_year" font_id="0" x="36" y="500" color="#000000" angle="0" height="96" width="960" alignment="left" v_alignment="center" shrink="yes"/>
+					<text order_id="1" field="full_name" font_id="0" x="36" y="180" color="#000000" angle="0" height="96" width="960" alignment="left" v_alignment="center" shrink="yes"/>
+					<barcode order_id="2" field="barcode" font_id="0" x="36" y="300" rotation="0" code="ean13" height="240" multiplier="8" ratio="3" bar-height="240" quiet_zone_width="100" show_text="yes" add_checksum="auto"/>
+					<text order_id="3" field="academic_year" font_id="0" x="36" y="60" color="#000000" angle="0" height="96" width="960" alignment="left" v_alignment="center" shrink="yes"/>
 				</print_type>
 			</print_types>
 		</side>
