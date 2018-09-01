@@ -34,6 +34,11 @@ public class MembershipCard {
 	private String firstName;
 	
 	/**
+	 * Barcode of the card
+	 */
+	private String barcode;
+	
+	/**
 	 * Last name of the card owner
 	 */
 	private String lastName;
@@ -79,6 +84,14 @@ public class MembershipCard {
 		this.comment = comment;
 	}
 	
+	public String getBarcode() {
+		return barcode;
+	}
+	
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+	
 	public static MembershipCard fromJson(String string) {
 		JSONObject jsonObject = JSONObject.fromObject(string);
 
@@ -87,6 +100,7 @@ public class MembershipCard {
 		card.setFirstName(jsonObject.getString("firstName"));
 		card.setLastName(jsonObject.getString("lastName"));
 		card.setComment(jsonObject.getString("comment"));
+		card.setBarcode(jsonObject.getString("barcode"));
 		
 		return card;
 	}

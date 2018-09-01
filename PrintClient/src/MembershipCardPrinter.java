@@ -56,7 +56,7 @@ public class MembershipCardPrinter {
 			TemplateModel templateModel = new TemplateModel("card.xml");
 			
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("barcode", card.getId());
+			map.put("barcode", card.getBarcode());
 			map.put("full_name", card.getFullName());
 			map.put("academic_year", card.getComment());
 			
