@@ -83,14 +83,14 @@ public class ServerConnection implements Runnable {
 							ClientConnection connection  = ConnectionDb.getInstance().getConnection(id);
 
 							if (connection != null) {
-								System.out.println("[" + (new Date()).toString() + "]: Data send to: " + id);
+								System.out.println("[" + (new Date()).toString() + "]: Data sent to: " + id);
 								connection.send(object.toString());
 							} else {
 								System.out.println("[" + (new Date()).toString() + "]: Not found: " + id);
 							}
 						}
 					} else {
-						System.out.println("[" + (new Date()).toString() + "]: Print command send with wrong key, disconnecting...");
+						System.out.println("[" + (new Date()).toString() + "]: Print command sent with wrong key, disconnecting...");
 						close();
 					}
 				} else {
